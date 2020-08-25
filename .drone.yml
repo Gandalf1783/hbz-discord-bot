@@ -1,4 +1,4 @@
-name: testdeploy
+name: build
 kind: pipeline
 type: docker
 
@@ -22,3 +22,31 @@ steps:
 trigger:
   ref:
     - refs/pull/**
+
+---
+name: deploy
+kind: pipeline
+type: docker
+
+steps:
+  - name: prepare
+    image: node:13
+    pull: if-not-exists
+    commands:
+      - npm i
+    depends_on:
+      - clone
+
+  - name: lint
+    image: node:13
+    pull: if-not-exists
+    commands:
+      - eslint ./ --ext .js --max-warnings 0 --report-unused-disable-directives
+    depends_on:
+      - prepare
+
+trigger:
+  branch:
+    - master
+  event:
+    - push
