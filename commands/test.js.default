@@ -1,0 +1,8 @@
+// Commands
+module.exports = {
+    name : "",
+    alias : [],
+    description : "",
+    run : function(client, msg){   
+    }
+}

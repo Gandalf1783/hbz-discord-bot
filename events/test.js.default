@@ -1,0 +1,8 @@
+//Events
+module.exports ={
+    trigger: "", // discord.js client events
+    name : "",
+    run : function(client, args){ // args ist ein Array aus allen variablen die du durch das event bekommen würdest
+		// your code here
+    }
+} 
