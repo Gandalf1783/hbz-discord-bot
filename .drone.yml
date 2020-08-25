@@ -1,0 +1,9 @@
+name: testdeploy
+kind: pipeline
+type: docker
+steps:
+  - name: prepare
+    image: node:1§
+    pull: if-not-exists
+    commands:
+      - npm i
