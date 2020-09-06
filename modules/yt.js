@@ -29,7 +29,10 @@ async function downloadPage(config, channel, page = "") {
     }
     channel.send(`Downloading ${videoInfo.title}, id: ${videoInfo.id}`);
     if(videoInfo.live == "none") { // Checking if the video is NO LIVESTREAM (no upcoming one or currently streaming one)
-      if(!fs.existsSync(`videos/${videoInfo.id}.mp3` || videoInfo.title.includes("vlog"))) {
+      if(!fs.existsSync(`videos/${videoInfo.id}.mp3` ||  
+      videoInfo.title.includes("VLog") ||  // Check if this video
+      videoInfo.title.includes("Vlogz") || // is NO VLog or
+      videoInfo.title.includes("Q&A"))) {  // a Q&A. 
         ytdl(`https://www.youtube.com/watch?v=${videoInfo.id}`) // Downloading into dir
         .pipe(fs.createWriteStream(`videos/${videoInfo.id}.mp3`))
         counter++;
