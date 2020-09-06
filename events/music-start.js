@@ -4,10 +4,11 @@ module.exports ={
     name : "Musik",
     run : async function(client, args){ // args ist ein Array aus allen variablen die du durch das event bekommen würdest
       let fs = require("fs");
+      let decode = require("unescape");
       let newVoice = args[1].channel;
       let oldVoice = args[0].channel;
       let channel = client.baseconfig.music;
-
+      
       if (oldVoice != newVoice) {
         if (oldVoice == null) {
 
@@ -36,11 +37,17 @@ module.exports ={
 
             dispatcher.on('start', () => {
               console.log(chosenFile+' is now playing!');
+              var content = fs.readFileSync("videos/index.json");
+              const videoNames = JSON.parse(content);
+              chosenFile = chosenFile.replace(".mp3", "");
+              var name = videoNames[chosenFile];
+              name = decode(name);
+              client.user.setActivity(name);
             });
 
             dispatcher.on('finish', () => {
               console.log(chosenFile+' has finished playing!');
-              playsong();
+              playsong(); // Loop, restart function 
             });
 
             // Handle errors:
