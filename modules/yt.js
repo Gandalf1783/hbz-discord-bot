@@ -26,8 +26,7 @@ async function downloadPage(config, channel, page = "") {
     if(counter % 5 == 0){
       console.log("Waiting 1 Min");
       client.sleep(6000);
-    }
-    
+    } 
     channel.send(`Downloading ${videoInfo.title}, id: ${videoInfo.id}`);
     if(videoInfo.live == "none") { // Checking if the video is NO LIVESTREAM (no upcoming one or currently streaming one)
       let videoName = videoInfo.title.toLowerCase();

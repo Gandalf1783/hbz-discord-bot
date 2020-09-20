@@ -24,6 +24,7 @@ module.exports ={
           if(newVoice.id != channel) { // Test if the channel is the one for random music playback
             return ;
           }
+          
           let server = newVoice.guild; // Getting the current server from the user
 
           const connection = await newVoice.join(); // Joining the users channel
