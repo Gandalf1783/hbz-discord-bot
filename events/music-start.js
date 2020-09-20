@@ -56,10 +56,7 @@ module.exports ={
 
           playsong();
 
-        } else if (newVoice == null) {
-        } else {
         }
       }
-
     }
 }
