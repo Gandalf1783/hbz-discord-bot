@@ -1,24 +1,29 @@
-const downloadPage = require("../modules/yt.js");
+const downloadPage = require('../modules/yt.js')
 module.exports = {
-    name : "updatevideosall",
-    alias : [],
-    description : "Fetches ALL YOUTUBE VIDEOS for a channel",
-    run: async function (client, msg) {
-      if(!msg.member.hasPermission("MANAGE_CHANNELS")){
-        return;
-      }
-      const config = {
-        youtubeChannel: client.baseconfig.youtubechannel,
-        youtubeAPIKey: client.baseconfig.youtubeapitoken
-      }
-      var nextPageToken = await downloadPage(config, msg.channel, "").then(token => nextPageToken = token);
-      let i = 0;
-      while(nextPageToken) {
-        nextPageToken = await downloadPage(config, msg.channel, nextPageToken).then(token => nextPageToken = token);
-        msg.channel.send("Downloaded Page | Page"+i);
-        i++;
-      }
-    }
+	name: 'updatevideosall',
+	alias: [],
+	description: 'Fetches ALL YOUTUBE VIDEOS for a channel',
+	run: async (client, msg) => {
+		if (!msg.member.hasPermission('MANAGE_CHANNELS')) return
+
+		const config = {
+			youtubeChannel: client.baseconfig.youtubechannel,
+			youtubeAPIKey: client.baseconfig.youtubeapitoken,
+		}
+		var nextPageToken = await downloadPage(config, msg.channel, '').then(
+			(token) => (nextPageToken = token),
+		)
+		let i = 0
+		while (nextPageToken) {
+			nextPageToken = await downloadPage(
+				config,
+				msg.channel,
+				nextPageToken,
+			).then((token) => (nextPageToken = token))
+			msg.channel.send(`Downloaded Page | Page${i}`)
+			i++
+		}
+	},
 }
 /* 
 const axios = require('axios').default

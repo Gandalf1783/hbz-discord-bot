@@ -1,35 +1,43 @@
 {
-  "name": "hbz-bot-v12",
-  "version": "1.0.0",
-  "private": true,
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "dad-ju",
-  "license": "ISC",
-  "dependencies": {
-    "@discordjs/opus": "^0.1.0",
-    "axios": "^0.19.2",
-    "bufferutil": "^4.0.1",
-    "discord.js": "^12.2.0",
-    "erlpack": "github:discordapp/erlpack",
-    "ffmpeg-static": "^4.1.1",
-    "libsodium-wrappers": "^0.7.6",
-    "opusscript": "0.0.7",
-    "sodium": "^3.0.2",
-    "utf-8-validate": "^5.0.2",
-    "ytdl-core": "^2.1.5",
-    "zlib-sync": "^0.1.6"
-  },
-  "engines": {
-    "node": ">=13.0.0"
-  },
-  "engineStrict": true,
-  "devDependencies": {
-    "eslint": "^7.7.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.0"
-  }
+	"name": "hbz-bot-v12",
+	"version": "1.0.0",
+	"private": true,
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "eslint --fix ./"
+	},
+	"author": "dad-ju",
+	"license": "ISC",
+	"dependencies": {
+		"@discordjs/opus": "^0.1.0",
+		"axios": "^0.19.2",
+		"bufferutil": "^4.0.1",
+		"discord.js": "^12.2.0",
+		"erlpack": "github:discordapp/erlpack",
+		"ffmpeg-static": "^4.1.1",
+		"libsodium-wrappers": "^0.7.6",
+		"opusscript": "0.0.7",
+		"sodium": "^3.0.2",
+		"utf-8-validate": "^5.0.2",
+		"ytdl-core": "^2.1.5",
+		"zlib-sync": "^0.1.6"
+	},
+	"engines": {
+		"node": ">=13.0.0"
+	},
+	"engineStrict": true,
+	"devDependencies": {
+		"eslint": "^7.7.0",
+		"eslint-config-airbnb-base": "^14.2.0",
+		"eslint-config-prettier": "^6.13.0",
+		"eslint-config-standard": "^14.1.1",
+		"eslint-plugin-import": "^2.22.0",
+		"eslint-plugin-node": "^11.1.0",
+		"eslint-plugin-prefer-arrow-functions": "^3.0.1",
+		"eslint-plugin-prettier": "^3.1.4",
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-standard": "^4.0.1",
+		"prettier": "^2.1.2"
+	}
 }

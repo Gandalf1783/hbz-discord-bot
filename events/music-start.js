@@ -1,63 +1,53 @@
-//Events
-module.exports ={
-    trigger: "voiceStateUpdate", // discord.js client events
-    name : "Musik",
-    run : async function(client, args){ // args ist ein Array aus allen variablen die du durch das event bekommen würdest
-      let fs = require("fs");
-      let decode = require("unescape");
-      let newVoice = args[1].channel;
-      let oldVoice = args[0].channel;
-      let channel = client.baseconfig.music;
-      
-      if (oldVoice != newVoice) {
-        if (oldVoice == null) {
+// Events
+module.exports = {
+	trigger: 'voiceStateUpdate', // discord.js client events
+	name: 'Musik',
+	run: async (client, args) => {
+		// args ist ein Array aus allen variablen die du durch das event bekommen würdest
+		const fs = require('fs')
+		const decode = require('unescape')
 
-          if(newVoice.members.size > 2) { //If more than 2 users are in the Voice, just skip this event.
-            return;
-          }
-          if(args[1].member.id == client.user.id) return; //Check if the joined user is this bot.
+		const newVoice = args[1].channel
+		const oldVoice = args[0].channel
+		const channel = client.baseconfig.music
 
-          if(newVoice === null) { // User left the channel, we dont wanna handle that here.
-            return;
-          }
+		if (oldVoice === newVoice) return
+		if (oldVoice !== null) return
+		if (newVoice.members.size > 2) return // If more than 2 users are in the Voice, just skip this event.
 
-          if(newVoice.id != channel) { // Test if the channel is the one for random music playback
-            return ;
-          }
-          
-          let server = newVoice.guild; // Getting the current server from the user
+		if (args[1].member.id === client.user.id) return // Check if the joined user is this bot.
 
-          const connection = await newVoice.join(); // Joining the users channel
+		if (newVoice === null) return // User left the channel, we dont wanna handle that here.
 
-          var files = fs.readdirSync('videos').filter(file => file.endsWith(".mp3"));
+		if (newVoice.id !== channel) return // Test if the channel is the one for random music playback
 
-          function playsong(){
-            let chosenFile = files[Math.floor(Math.random() * files.length)]
-            // Create a dispatcher
-            const dispatcher = connection.play('videos/'+chosenFile);
+		const connection = await newVoice.join() // Joining the users channel
 
-            dispatcher.on('start', () => {
-              console.log(chosenFile+' is now playing!');
-              var content = fs.readFileSync("videos/index.json");
-              const videoNames = JSON.parse(content);
-              chosenFile = chosenFile.replace(".mp3", "");
-              var name = videoNames[chosenFile];
-              name = decode(name);
-              client.user.setActivity(name);
-            });
+		var files = fs.readdirSync('videos').filter((file) => file.endsWith('.mp3'))
 
-            dispatcher.on('finish', () => {
-              console.log(chosenFile+' has finished playing!');
-              playsong(); // Loop, restart function 
-            });
+		const playsong = () => {
+			let chosenFile = files[Math.floor(Math.random() * files.length)]
+			// Create a dispatcher
+			const dispatcher = connection.play(`videos/${chosenFile}`)
 
-            // Handle errors:
-            dispatcher.on('error', console.error);
-          }
+			dispatcher.on('start', () => {
+				console.log(`${chosenFile} is now playing!`)
+				const content = fs.readFileSync('videos/index.json')
+				const videoNames = JSON.parse(content)
+				chosenFile = chosenFile.replace('.mp3', '')
+				const name = decode(videoNames[chosenFile])
+				client.user.setActivity(name)
+			})
 
-          playsong();
+			dispatcher.on('finish', () => {
+				console.log(`${chosenFile} has finished playing!`)
+				playsong() // Loop, restart function
+			})
 
-        }
-      }
-    }
+			// Handle errors:
+			dispatcher.on('error', console.error)
+		}
+
+		playsong()
+	},
 }

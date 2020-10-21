@@ -1,0 +1,43 @@
+parserOptions:
+  ecmaVersion: 2020
+  sourceType: module
+extends:
+  - standard
+  - eslint:recommended
+  - plugin:prettier/recommended
+plugins:
+  - prefer-arrow-functions
+rules:
+  comma-dangle: 0
+  camelcase: 0
+  quotes:
+    - error
+    - single
+    - avoid-escape
+  object-shorthand: error
+  prefer-template: 2
+  prefer-const: error
+  curly:
+    - error
+    - multi
+    - consistent
+  max-depth:
+    - error
+    - max: 1
+  padding-line-between-statements:
+    - error
+    - blankLine: always
+      prev: '*'
+      next: return
+  import/order: # ! This needs some work to match our desires
+    - error
+    - pathGroups:
+        - pattern: ~/**
+          group: external
+      newlines-between: never
+  prefer-arrow-functions/prefer-arrow-functions:
+    - error
+    - returnStyle: implicit
+      disallowPrototype: true
+      classPropertiesAllowed: true
+  prettier/prettier: warn
