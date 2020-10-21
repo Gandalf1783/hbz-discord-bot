@@ -81,8 +81,10 @@ client.once("ready", _ => {
     };
 
     setPressence();
-    client.setInterval( _ => {
-        setPressence();
+    client.setInterval( () => {
+        if(!client.voice.connections.first()){
+            setPressence();
+        }
     }, 60000);
     client.cache.init();
     const config = {
