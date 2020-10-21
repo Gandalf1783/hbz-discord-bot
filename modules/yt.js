@@ -26,10 +26,14 @@ async function downloadPage(config, channel, page = "") {
     if(counter % 5 == 0){
       console.log("Waiting 1 Min");
       client.sleep(6000);
-    }
+    } 
     channel.send(`Downloading ${videoInfo.title}, id: ${videoInfo.id}`);
     if(videoInfo.live == "none") { // Checking if the video is NO LIVESTREAM (no upcoming one or currently streaming one)
-      if(!fs.existsSync(`videos/${videoInfo.id}.mp3` || videoInfo.title.includes("vlog"))) {
+      let videoName = videoInfo.title.toLowerCase();
+      if(!fs.existsSync(`videos/${videoInfo.id}.mp3` ||  
+      videoInfo.title.includes("vlog") ||  // Check if this video
+      videoInfo.title.includes("vlogz") || // is NO VLog or
+      videoInfo.title.includes("q&a"))) {  // a Q&A. 
         ytdl(`https://www.youtube.com/watch?v=${videoInfo.id}`) // Downloading into dir
         .pipe(fs.createWriteStream(`videos/${videoInfo.id}.mp3`))
         counter++;

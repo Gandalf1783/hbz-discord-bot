@@ -4,44 +4,60 @@ module.exports ={
     name : "Musik",
     run : async function(client, args){ // args ist ein Array aus allen variablen die du durch das event bekommen würdest
       let fs = require("fs");
-      let newUserChannel = args[1].channel;
-      let oldUserChannel = args[0].channel;
+      let decode = require("unescape");
+      let newVoice = args[1].channel;
+      let oldVoice = args[0].channel;
       let channel = client.baseconfig.music;
+      
+      if (oldVoice != newVoice) {
+        if (oldVoice == null) {
 
-	    if(args[1].member.id == client.user.id) return; //Check if the joined user is this bot.
+          if(newVoice.members.size > 2) { //If more than 2 users are in the Voice, just skip this event.
+            return;
+          }
+          if(args[1].member.id == client.user.id) return; //Check if the joined user is this bot.
 
+          if(newVoice === null) { // User left the channel, we dont wanna handle that here.
+            return;
+          }
 
-      if(newUserChannel === null) { // User left the channel, we dont wanna handle that here.
-        return;
-      }
+          if(newVoice.id != channel) { // Test if the channel is the one for random music playback
+            return ;
+          }
+          
+          let server = newVoice.guild; // Getting the current server from the user
 
-	    if(newUserChannel.id != channel) { // Test if the channel is the one for random music playback
-	    	return ;
-	    }
+          const connection = await newVoice.join(); // Joining the users channel
 
-	    let server = newUserChannel.guild; // Getting the current server from the user
+          var files = fs.readdirSync('videos').filter(file => file.endsWith(".mp3"));
 
-	    const connection = await newUserChannel.join(); // Joining the users channel
+          function playsong(){
+            let chosenFile = files[Math.floor(Math.random() * files.length)]
+            // Create a dispatcher
+            const dispatcher = connection.play('videos/'+chosenFile);
 
-      var files = fs.readdirSync('videos').filter(file => file.endsWith(".mp3"));
+            dispatcher.on('start', () => {
+              console.log(chosenFile+' is now playing!');
+              var content = fs.readFileSync("videos/index.json");
+              const videoNames = JSON.parse(content);
+              chosenFile = chosenFile.replace(".mp3", "");
+              var name = videoNames[chosenFile];
+              name = decode(name);
+              client.user.setActivity(name);
+            });
 
-      function playsong(){
-        let chosenFile = files[Math.floor(Math.random() * files.length)]
-        // Create a dispatcher
-	      const dispatcher = connection.play('videos/'+chosenFile);
+            dispatcher.on('finish', () => {
+              console.log(chosenFile+' has finished playing!');
+              playsong(); // Loop, restart function 
+            });
 
-	      dispatcher.on('start', () => {
-	      	console.log(chosenFile+' is now playing!');
-	      });
+            // Handle errors:
+            dispatcher.on('error', console.error);
+          }
 
-	      dispatcher.on('finish', () => {
-          console.log(chosenFile+' has finished playing!');
           playsong();
-	      });
 
-	      // Handle errors:
-        dispatcher.on('error', console.error);
+        }
       }
-      playsong();
     }
 }
