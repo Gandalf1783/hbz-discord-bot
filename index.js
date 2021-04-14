@@ -12,7 +12,7 @@ const sleep = (ms) =>
 
 // Init from Client.
 const client = new Discord.Client({
-	fetchAllMembers: true,
+	fetchAllMembers: false,
 	partials: ['CHANNEL', 'MESSAGE', 'REACTION'],
 	presence: {
 		activity: {
@@ -126,7 +126,7 @@ client.on('error', (error) => {
 // -| irgendwas.js
 
 const init = () => {
-	;['commands', 'events'].forEach((type) => {
+	['commands', 'events'].forEach((type) => {
 		const modules = fs
 			.readdirSync(`./${type}`)
 			.filter((item) => item.endsWith('.js'))

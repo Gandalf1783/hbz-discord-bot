@@ -31,11 +31,16 @@ module.exports = {
 			const dispatcher = connection.play(`videos/${chosenFile}`)
 
 			dispatcher.on('start', () => {
-				console.log(`${chosenFile} is now playing!`)
 				const content = fs.readFileSync('videos/index.json')
 				const videoNames = JSON.parse(content)
+
 				chosenFile = chosenFile.replace('.mp3', '')
+
+				const videoName = videoNames[chosenFile]
 				const name = decode(videoNames[chosenFile])
+				
+				console.log(`${name} (${chosenFile}) is now playing!`)
+				
 				client.user.setActivity(name)
 			})
 
